@@ -321,6 +321,82 @@ header .logo {
   .cta-btn{ display:none }
 }
 
+/* Fixed CTA circular menu */
+.cta-fixed{
+  
+  position:fixed;
+  right:20px;
+  top:50%;
+  transform:translateY(-50%);
+  z-index:1400;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  pointer-events:auto;
+}
+.cta-toggle{
+  width:84px;
+  height:84px;
+  border-radius:50%;
+  background:linear-gradient(135deg,var(--yellow),var(--yellow-light));
+  color:var(--blue-dark);
+  border:0;
+  padding:0;
+  cursor:pointer;
+  font-weight:700;
+  box-shadow:0 10px 30px rgba(250, 229, 110, 0.95);
+  font-size:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+.cta-menu{
+  position:relative;
+  width:0;
+  height:0;
+}
+.cta-menu .menu-item{
+  position:absolute;
+  right:calc(100% + 15px);
+  top:50%;
+  transform:translate(0,-100%) scale(0);
+  width:66px;
+  height:66px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+  background:linear-gradient(135deg,var(--yellow),var(--yellow-light));
+  color:var(--blue-dark);
+  box-shadow:0 8px 20px rgba(0,0,0,0.12);
+  transition:transform 360ms cubic-bezier(.2,.9,.2,1), opacity 220ms ease;
+  opacity:0;
+  pointer-events:none;
+  font-size:11px;
+  padding:5px;
+  text-align:center;
+}
+.cta-fixed.open .cta-menu .menu-item{
+  opacity:1;
+  pointer-events:auto;
+}
+/* radial positions when open (4 items) */
+.cta-fixed.open .cta-menu .menu-item:nth-child(1){ transform:translate(-86px, 5px) scale(1); }
+.cta-fixed.open .cta-menu .menu-item:nth-child(2){ transform:translate(-84px,-64px) scale(1); }
+.cta-fixed.open .cta-menu .menu-item:nth-child(3){ transform:translate(-27px,-108px) scale(1); }
+.cta-fixed.open .cta-menu .menu-item:nth-child(4){ transform:translate(-27px, 43px) scale(1); }
+
+/* small-screen tweak: center near bottom on tiny viewports */
+@media (max-width:520px){
+  .cta-fixed{ right:12px; top:auto; bottom:20px; transform:none; }
+  .cta-fixed.open .cta-menu .menu-item:nth-child(1){ transform:translate(-76px,0) scale(1); }
+  .cta-fixed.open .cta-menu .menu-item:nth-child(2){ transform:translate(-54px,-54px) scale(1); }
+  .cta-fixed.open .cta-menu .menu-item:nth-child(3){ transform:translate(0,-100px) scale(1); }
+  .cta-fixed.open .cta-menu .menu-item:nth-child(4){ transform:translate(-54px,54px) scale(1); }
+}
+
 /* Responsive rules */
 @media (max-width:900px){
   .nav{display:none}

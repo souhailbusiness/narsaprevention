@@ -144,3 +144,53 @@
   });
 
 })();
+
+/* CTA circular menu behavior */
+(function(){
+  const ctaToggle = document.getElementById('ctaToggle');
+  const ctaMenu = document.getElementById('ctaMenu');
+  const ctaFixed = document.getElementById('ctaFixed');
+
+  if(!ctaToggle || !ctaMenu || !ctaFixed) return;
+
+  ctaToggle.addEventListener('click', function(e){
+    e.stopPropagation();
+    const open = ctaFixed.classList.toggle('open');
+    ctaToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    ctaMenu.setAttribute('aria-hidden', open ? 'false' : 'true');
+  });
+
+  // Close when clicking outside
+  document.addEventListener('click', function(e){
+    if(!ctaFixed.contains(e.target) && ctaFixed.classList.contains('open')){
+      ctaFixed.classList.remove('open');
+      ctaToggle.setAttribute('aria-expanded','false');
+      ctaMenu.setAttribute('aria-hidden','true');
+    }
+  });
+
+  // Close on Escape
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && ctaFixed.classList.contains('open')){
+      ctaFixed.classList.remove('open');
+      ctaToggle.setAttribute('aria-expanded','false');
+      ctaMenu.setAttribute('aria-hidden','true');
+      ctaToggle.focus();
+    }
+  });
+
+  // Optional: keyboard toggle via Enter/Space
+  ctaToggle.addEventListener('keydown', function(e){
+    if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); ctaToggle.click(); }
+  });
+
+  // Allow link clicks to close menu
+  ctaMenu.querySelectorAll('.menu-item').forEach(a=>{
+    a.addEventListener('click', function(){
+      ctaFixed.classList.remove('open');
+      ctaToggle.setAttribute('aria-expanded','false');
+      ctaMenu.setAttribute('aria-hidden','true');
+    });
+  });
+
+})();
