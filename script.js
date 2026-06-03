@@ -40,9 +40,19 @@
   // Burger toggle
   burger.addEventListener('click', function(){
     const open = mobileNav.classList.toggle('open');
+    burger.classList.toggle('open', open);
     burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    burger.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
     mobileNav.setAttribute('aria-hidden', open ? 'false' : 'true');
   });
+
+  function closeMobileMenu(){
+    mobileNav.classList.remove('open');
+    burger.classList.remove('open');
+    burger.setAttribute('aria-expanded','false');
+    burger.setAttribute('aria-label','Ouvrir le menu');
+    mobileNav.setAttribute('aria-hidden','true');
+  }
 
   // Desktop: click to toggle .open on li for accessibility on touch devices
   primaryNav.querySelectorAll('.nav-list > li > a').forEach(a=>{
@@ -73,8 +83,7 @@
   document.addEventListener('keydown', function(e){
     if(e.key === 'Escape'){
       // close mobile and all open desktop dropdowns
-      mobileNav.classList.remove('open');
-      burger.setAttribute('aria-expanded','false');
+      closeMobileMenu();
       primaryNav.querySelectorAll('.nav-list > li.open').forEach(li=>li.classList.remove('open'));
     }
   });
@@ -85,8 +94,14 @@
       primaryNav.querySelectorAll('.nav-list > li.open').forEach(li=>li.classList.remove('open'));
     }
     if(!mobileNav.contains(e.target) && !burger.contains(e.target)){
-      // do not force close if clicking inside the header brand area
+      closeMobileMenu();
     }
+  });
+
+  // Close mobile menu when a link inside it is clicked
+  mobileNav.addEventListener('click', function(e){
+    const a = e.target.closest('a');
+    if(a) closeMobileMenu();
   });
 
   // Scroll effect: add shrink when scrolled
